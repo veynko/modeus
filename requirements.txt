@@ -1,1 +1,5 @@
 aiogram==3.13.1
+aiohttp
+aiodns
+pyjwt[crypto]
+bs4

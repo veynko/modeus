@@ -1,15 +1,30 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters.command import Command
+from aiogram.filters import CommandStart, Command
+from modeus import auth
 import os
 
 
 dp = Dispatcher()
 
-@dp.message(Command("start"))
-async def cmd_start(message: types.Message):
-    await message.answer("Hello!")
+@dp.message(CommandStart())
+async def bot_start(message: types.Message):
+    await message.answer("Hello")
+    
+
+@dp.message(Command("check"))
+async def check(message: types.Message):
+    try:
+            words = message.text.split()[1:]
+            if len(words) != 2:
+                 await message.answer("Invalid message")
+            username, password = words
+            token = await auth.get_token(username, password)
+            await message.answer(f"{token.id}\n{token.token}")
+    except Exception as e:
+        await message.answer("Ups, something went wrong")
+        logger.debug(f"AHTUNG!!! {e.with_traceback()}")
 
 
 async def main():

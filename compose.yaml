@@ -1,0 +1,12 @@
+services:
+  bot:
+    logging:
+      options:
+        max-size: 10mb
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      TOKEN: "${TG_TOKEN}"
+
